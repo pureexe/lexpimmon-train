@@ -36,3 +36,6 @@ class WordListLoader():
 
     def get_class_label(self,word_len, idx):
         return self.__word_list[word_len][idx]
+        
+    def get_label_position(self,word_len,word):
+        return self.__word_list[word_len].index(word)
