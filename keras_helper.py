@@ -40,3 +40,9 @@ def word_accuracy(y_true, y_pred):
     absolute = K.abs(y_true-y_pred)
     count = K.map_fn(is_correct_word,absolute)
     return K.equal(count,0)
+  
+  
+def get_lr_metric(optimizer):
+  def lr(y_true, y_pred):
+    return optimizer.lr
+  return lr

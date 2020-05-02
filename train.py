@@ -20,7 +20,7 @@ def get_callback(model_dir, log_dir):
     return [
         TensorBoard(log_dir=log_dir, histogram_freq=10, write_graph=True),
         ModelCheckpoint(model_dir, save_best_only=True, save_weights_only=True, monitor='val_loss', mode='min',verbose=1),
-        ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.0001),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=1e-5, verbose=1),
         EarlyStopping(monitor='val_loss', patience=20)    
     ]
 
@@ -47,11 +47,11 @@ def main(args):
     validation_label = pad_data(validation_df,'correct_position')
 
     print("start training")
-    model_train, model_inference  = get_our_model(learning_rate = 0.01)
+    model_train, model_inference  = get_our_model(learning_rate = 0.01, dropout_rate=0.225)
     if os.path.exists(args.model_dir):
         try:
             model_train.load_weights(args.model_dir)
-        except:
+        except: 
             pass
     model_train.fit(
         train_data, 
@@ -74,13 +74,13 @@ def entry_point():
     )
     parser.add_argument(
         '--model_dir',
-        default='model\\our\\',
+        default='model\\our_dropout_0.25_lr_0.1e-5\\',
         type=str,
         help='model directory (default: model\\our\\)',
     )
     parser.add_argument(
         '--log_dir',
-        default='logs\\our\\',
+        default='logs\\our_dropout_0.25_lr_0.1e-5\\',
         type=str,
         help='log directory (default: logs\\our\\)',
     )

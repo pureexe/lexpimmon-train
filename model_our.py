@@ -1,20 +1,27 @@
 import tensorflow as tf
-from keras_helper import KeyboardPosition, RemoveTailNoise, word_accuracy
-from tensorflow.keras.layers import Input, Dense, Concatenate
+from keras_helper import KeyboardPosition, RemoveTailNoise, word_accuracy, get_lr_metric
+from tensorflow.keras.layers import Input, Dense, Concatenate, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.models import Model
 
-def get_our_model(learning_rate = 0.001):
+def get_our_model(learning_rate = 0.001,dropout_rate = 0.2):
   input_node = Input(shape=(21,3))
   shift_controller = input_node[:,:,:1]
   x = Dense(256,activation='relu')(input_node)
+  x = Dropout(dropout_rate)(x)
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Concatenate()([x,input_node])
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Dense(256,activation='relu')(x)
+  x = Dropout(dropout_rate)(x)
   x = Dense(2)(x)
   concat = Concatenate(axis=2)([shift_controller,x])
   keyboard_position = KeyboardPosition()(concat)
@@ -24,4 +31,4 @@ def get_our_model(learning_rate = 0.001):
   optimizer = Adam(learning_rate=learning_rate)
   model_train.compile(loss='mean_squared_error', optimizer=optimizer)
   model_inference.compile(loss='mean_squared_error', metrics=[word_accuracy])
-  return model_train, model_inference 
+  return model_train, model_inference

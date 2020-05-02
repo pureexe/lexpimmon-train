@@ -43,7 +43,6 @@ def main(args):
             predict_true.append(word_len)
         else:
             predict_false.append(word_len)
-
     plt.hist(predict_true, bins = range(22))
     plt.title('Correct predict')
     plt.xlabel('Word length')
@@ -69,7 +68,7 @@ def entry_point():
     )
     parser.add_argument(
         '--model',
-        default='model/our_20200427_01/',
+        default='model/our_dense_activation_sigmoid/',
         type=str,
         help='path of model check point to load the weight (default: model/our/)',
     )
