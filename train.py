@@ -20,7 +20,7 @@ def get_callback(model_dir, log_dir):
     return [
         TensorBoard(log_dir=log_dir, histogram_freq=10, write_graph=True),
         ModelCheckpoint(model_dir, save_best_only=True, save_weights_only=True, monitor='val_loss', mode='min',verbose=1),
-        ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=1e-5, verbose=1),
+        ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=1e-4, verbose=1),
         EarlyStopping(monitor='val_loss', patience=20)    
     ]
 

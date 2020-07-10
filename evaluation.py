@@ -38,7 +38,7 @@ def main(args):
     model_train, model_inference,  = get_our_model(learning_rate= 0.01, dropout_rate=0.25)
     model_train.load_weights(args.model)
     _, accuracy = model_inference.evaluate(test_data, test_label)
-    print("our_dropout_0.25_lr_0.1e-5 model: accuracy - {:.8f}".format(accuracy))
+    print("our_GRU model: accuracy - {:.8f}".format(accuracy))
 
 
 
@@ -54,7 +54,7 @@ def entry_point():
     )
     parser.add_argument(
         '--model',
-        default='model/our_dropout_0.25_lr_0.1e-5/',
+        default='model/our_GRU/',
         type=str,
         help='path of model check point to load the weight (default: model/our/)',
     )
